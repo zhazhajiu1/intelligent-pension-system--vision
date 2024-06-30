@@ -183,8 +183,10 @@
 # # save the model to disk
 # print("[INFO] serializing network...")
 # model.save(output_model_path)
-
-
+import cv2
+'''
+python trainingfalldetection.py
+'''
 # import the necessary packages
 from keras._tf_keras.keras.applications import ResNet50
 from keras._tf_keras.keras.applications.resnet50 import preprocess_input
@@ -204,14 +206,11 @@ from keras_preprocessing.image import ImageDataGenerator
 import os
 import glob
 import numpy as np
-import matplotlib.pyplot as plt
-import tkinter as tk
-from tkinter import messagebox
-
 # 全局变量
 dataset_path = 'dataset'
 output_model_path = 'models/fall_detection.hdf5'
 output_plot_path = 'plots/fall_detection.png'
+
 
 # 全局常量
 TARGET_WIDTH = 64
@@ -219,37 +218,93 @@ TARGET_HEIGHT = 64
 BATCH_SIZE = 32
 EPOCHS = 10
 LR_INIT = 0.01
-DECAY = LR_INIT / EPOCHS
+DECAY = LR_INIT/EPOCHS
 MOMENTUM = 0.9
 
-# 获取图片路径
-fall_image_paths = glob.glob(os.path.join(dataset_path, 'fall', '*.png'))
-normal_image_paths = glob.glob(os.path.join(dataset_path, 'normal', '*.png'))
 
-# 合并两个列表
-imagePaths = fall_image_paths + normal_image_paths
-
-# 初始化预处理器
+# 加载图片
 aap = AspectAwarePreprocessor(TARGET_WIDTH, TARGET_HEIGHT)
-iap = ImageToArrayPreprocessor(dataFormat='channels_last')  # 或者 'channels_first'，根据你的需求
+iap = ImageToArrayPreprocessor()
 
 print("[INFO] loading images...")
+imagePaths = list(paths.list_images(dataset_path))
 
 sdl = SimpleDatasetLoader(preprocessors=[aap, iap])
-# print(imagePaths)
 (data, labels) = sdl.load(imagePaths, 500, False)
 data = data.astype("float") / 255.0
 
 # convert the labels from integers to vectors
-fall_labels = np.ones((len(fall_image_paths),), dtype="int")  # 摔倒类别为1
-normal_labels = np.zeros((len(normal_image_paths),), dtype="int")  # 日常活动类别为0
+le = LabelEncoder().fit(labels)
+labels = to_categorical(le.transform(labels), 2)
 
-labels = np.concatenate((fall_labels, normal_labels), axis=0)
-labels = to_categorical(labels, 2)  # 转换为独热编码
+# 全局变量
+# dataset_path = 'dataset'
+# output_model_path = 'models/fall_detection.hdf5'
+# output_plot_path = 'plots/fall_detection.png'
+#
+# # 全局常量
+# TARGET_WIDTH = 64
+# TARGET_HEIGHT = 64
+# BATCH_SIZE = 32
+# EPOCHS = 10
+# LR_INIT = 0.01
+# DECAY = LR_INIT / EPOCHS
+# MOMENTUM = 0.9
+#
+# # 获取图片路径
+# fall_image_paths = glob.glob(os.path.join(dataset_path, 'fall', '*.png'))
+# normal_image_paths = glob.glob(os.path.join(dataset_path, 'normal', '*.png'))
+#
+# # 合并两个列表
+# imagePaths = fall_image_paths + normal_image_paths
+#
+# # 初始化预处理器
+# aap = AspectAwarePreprocessor(TARGET_WIDTH, TARGET_HEIGHT)
+# iap = ImageToArrayPreprocessor(dataFormat='channels_last')  # 或者 'channels_first'，根据你的需求
+#
+# print("[INFO] loading images...")
+#
+# sdl = SimpleDatasetLoader(preprocessors=[aap, iap])
+# # print(imagePaths)
+# # (data, labels) = sdl.load(imagePaths, 500, False)
+# # data = data.astype("float") / 255.0
+# # 加载图像并处理
+# data = []
+# labels = []
+# for imagePath in imagePaths:
+#     image = cv2.imread(imagePath)
+#     if image is None:
+#         print(f"[WARNING] Image {imagePath} could not be loaded, skipping...")
+#         continue
+#
+#     image = aap.preprocess(image)
+#     image = iap.preprocess(image)
+#     data.append(image)
+#
+#     # 根据文件路径中的类别标签进行处理
+#     label = 1 if 'fall' in imagePath else 0
+#     labels.append(label)
+#
+# data = np.array(data)
+# labels = np.array(labels)
+#
+# # 数据归一化
+# data = data.astype("float") / 255.0
+#
+# # convert the labels from integers to vectors
+# fall_labels = np.ones((len(fall_image_paths),), dtype="int")  # 摔倒类别为1
+# normal_labels = np.zeros((len(normal_image_paths),), dtype="int")  # 日常活动类别为0
+#
+# labels = np.concatenate((fall_labels, normal_labels), axis=0)
+# labels = to_categorical(labels, 2)  # 转换为独热编码
 
 # partition the data into training and testing splits using 80% of
 # the data for training and the remaining 20% for testing
 (trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.20, stratify=labels, random_state=42)
+
+# Check the shapes of the split datasets
+print(f"trainX shape: {trainX.shape}, trainY shape: {trainY.shape}")
+print(f"testX shape: {testX.shape}, testY shape: {testY.shape}")
 
 # construct the image generator for data augmentation
 aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,

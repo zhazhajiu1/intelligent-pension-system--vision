@@ -4,12 +4,14 @@
 
 用法：
 python testingfalldetection.py
-python testingfalldetection.py --filename tests/corridor_01.avi
+python testingfalldetection.py --filename tests/test_fall_01.avi
+python testingfalldetection.py --filename tests/test_normal_01.avi
 '''
 
 # import the necessary packages
-from keras.preprocessing.image import img_to_array
-from keras.models import load_model
+from keras_preprocessing.image import img_to_array
+from tensorflow.python.keras.models import load_model
+import tensorflow as tf
 import numpy as np
 import cv2
 import time
@@ -42,7 +44,8 @@ else:
     vs = cv2.VideoCapture(input_video)
 
 # 加载模型
-model = load_model(model_path)
+# model = load_model(model_path)
+model = tf.keras.models.load_model(model_path)
 
 print('[INFO] 开始检测是否有人摔倒...')
 # 不断循环
@@ -68,7 +71,7 @@ while True:
     # determine facial expression
     (fall, normal) = model.predict(roi)[0]
     label = "Fall (%.2f)" % (fall) if fall > normal else "Normal (%.2f)" % (normal)
-
+    print(label)
     # display the label and bounding box rectangle on the output frame
     cv2.putText(image, label, (image.shape[1] - 150, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)

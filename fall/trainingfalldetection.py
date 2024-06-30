@@ -206,6 +206,7 @@ from keras_preprocessing.image import ImageDataGenerator
 import os
 import glob
 import numpy as np
+import tensorflow.python.keras.layers as tfLayer
 # 全局变量
 dataset_path = 'dataset'
 output_model_path = 'models/fall_detection.hdf5'
@@ -314,7 +315,8 @@ aug = ImageDataGenerator(rotation_range=30, width_shift_range=0.1,
 
 # initialize the model
 print("[INFO] compiling model...")
-base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(TARGET_WIDTH, TARGET_HEIGHT, 3))
+#TODO:新增参数尝试改进
+base_model = ResNet50(weights='imagenet', layers=tfLayer, include_top=False, input_shape=(TARGET_WIDTH, TARGET_HEIGHT, 3))
 
 # Add your own classifier on top
 x = base_model.output

@@ -97,7 +97,7 @@ while True:
                 cv2.imwrite(os.path.join(output_fall_path,
                                          'snapshot_%s.jpg'
                                          % (time.strftime('%Y%m%d_%H%M%S'))), image)
-                # insert into database
+                # TODO:insert into database
                 command = '%s inserting.py --event_desc %s --event_type 3 --event_location %s' % (python_path, event_desc, event_location)
                 p = subprocess.Popen(command, shell=True)
 

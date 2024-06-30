@@ -38,7 +38,7 @@ prototxt_file_path = 'models/mobilenet_ssd/MobileNetSSD_deploy.prototxt'
 # Contains the Caffe deep learning model files.
 # We’ll be using a MobileNet Single Shot Detector (SSD),
 # “Single Shot Detectors for object detection”.
-model_file_path = 'models/mobilenet_ssd/MobileNetSSD_deploy.caffemodel'
+model_file_path = 'models/mobilenet_ssd/MobileNetSSD_deploy (1).caffemodel'
 output_fence_path = 'supervision/fence'
 input_video = args['filename']
 skip_frames = 30  # of skip frames between detections
@@ -254,36 +254,36 @@ while True:
                     p = subprocess.Popen(command, shell=True)
 
         # store the trackable object in our dictionary
-trackableObjects[objectID] = to
+        trackableObjects[objectID] = to
 
-# draw both the ID of the object and the centroid of the
-# object on the output frame
-text = "ID {}".format(objectID)
-cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10),
-            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-cv2.circle(frame, (centroid[0], centroid[1]), 4,
-           (0, 255, 0), -1)
+        # draw both the ID of the object and the centroid of the
+        # object on the output frame
+        text = "ID {}".format(objectID)
+        cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        cv2.circle(frame, (centroid[0], centroid[1]), 4,
+                   (0, 255, 0), -1)
 
-# construct a tuple of information we will be displaying on the
-# frame
-info = [
-    # ("Up", totalUp),
-    ("Down", totalDown),
-    ("Status", status),
-]
+    # construct a tuple of information we will be displaying on the
+    # frame
+    info = [
+        # ("Up", totalUp),
+        ("Down", totalDown),
+        ("Status", status),
+    ]
 
-# loop over the info tuples and draw them on our frame
-for (i, (k, v)) in enumerate(info):
-    text = "{}: {}".format(k, v)
-    cv2.putText(frame, text, (10, H - ((i * 20) + 20)),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+    # loop over the info tuples and draw them on our frame
+    for (i, (k, v)) in enumerate(info):
+        text = "{}: {}".format(k, v)
+        cv2.putText(frame, text, (10, H - ((i * 20) + 20)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
 
-# show the output frame
-cv2.imshow("Prohibited Area", frame)
+    # show the output frame
+    cv2.imshow("Prohibited Area", frame)
 
-k = cv2.waitKey(1) & 0xff
-if k == 27:
-    break
+    k = cv2.waitKey(1) & 0xff
+    if k == 27:
+        break
 
 # increment the total number of frames processed thus far and
 # then update the FPS counter

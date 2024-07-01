@@ -4,6 +4,7 @@ import sys
 import cv2
 import dlib
 import numpy as np
+import pickle
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 
@@ -17,7 +18,6 @@ class EmotionRecognition:
         self.face_rec_model = dlib.face_recognition_model_v1(face_rec_model_path)
 
         self.emotions = ['happy', 'normal']
-        # self.emotions = ['anger', 'contempt', 'disgust', 'fear', 'happy', 'sadness', 'surprise']
 
     def recognize_emotion(self, frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

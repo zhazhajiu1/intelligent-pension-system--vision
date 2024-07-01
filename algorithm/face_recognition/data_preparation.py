@@ -61,13 +61,11 @@ def preprocess_and_align_faces(input_dir='data',
                     # cv2.imwrite(img_path, aligned_face)
                     aligned_img_path = os.path.join(person_dir, f"aligned_{img_file}")
                     cv2.imencode('.jpg', aligned_face)[1].tofile(aligned_img_path)
-
-                    # 数据增强（例如，翻转图像）
+                    # 数据增强（翻转图像）
                     flipped_face = cv2.flip(aligned_face, 1)
                     flipped_img_path = os.path.join(person_dir, f"flipped_{img_file}")
                     cv2.imencode('.jpg', flipped_face)[1].tofile(flipped_img_path)
-
-                    # 应用图像增强
+                    # 图像增强
                     augmented_images = seq(images=[aligned_face])
                     for idx, aug_img in enumerate(augmented_images):
                         aug_img_path = os.path.join(person_dir, f"aug_{idx}_{img_file}")

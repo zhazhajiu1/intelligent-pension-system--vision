@@ -53,7 +53,6 @@ def recognize_faces_from_camera(model_path='models/knn_model.clf', predictor_pat
                     label = knn_clf.predict([encoding])[0]
                     identity, person_name = label.split('_')
                     color = (0, 255, 0)  # 绿色框表示识别成功
-                    # text = label
                     text = f"{identity}: {person_name}"
                 else:
                     color = (0, 0, 255)  # 红色框表示识别失败

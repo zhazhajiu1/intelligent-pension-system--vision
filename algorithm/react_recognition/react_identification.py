@@ -3,12 +3,15 @@ import dlib
 import numpy as np
 import pickle
 from sklearn import neighbors
+import imutils
+from imutils import paths, face_utils
 
 PREDICTOR_PATH = '../face_recognition/data_dlib/shape_predictor_68_face_landmarks.dat'
 FACE_RECOGNITION_MODEL_PATH = '../face_recognition/data_dlib/dlib_face_recognition_resnet_model_v1.dat'
 KNN_MODEL_PATH = '../face_recognition/models/knn_model.clf'
 SKIP_FRAMES = 1
-DISTANCE_THRESHOLD = 1.0  # 1米内,判断为交互
+DISTANCE_THRESHOLD = 100  # 1米内,判断为交互
+KNOWN_FOCAL_LENGTH = 630.0  # 焦距px
 
 class InteractionDetection:
     def __init__(self, knn_model_path, predictor_path, face_rec_model_path, distance_threshold):
@@ -25,9 +28,41 @@ class InteractionDetection:
         with open(model_path, 'rb') as f:
             return pickle.load(f)
 
+    # 计算焦距
+    # def calibrate(self, calibrationImagePath, knownDistance, knownWidth):
+    #     # 使用一张已知距离的图片进行焦距标定
+    #     image = cv2.imread(calibrationImagePath)
+    #     marker = self.find_marker(image)
+    #     focalLength = (marker[1][0] * knownDistance) / knownWidth
+    #     print(f'a4实际距离: {knownDistance}cm')
+    #     print(f'a4实际宽度: {knownWidth}cm')
+    #     print(f'a4像素: {marker[1][0]}px')
+    #     print(f'焦距: {focalLength}px')
+    #     return focalLength
+
+    # 使用焦距计算距离
+    def calculate_distance(self, knownWidth, perWidth):
+        # 实际距离 = 实际宽度 * 焦距 / 像素宽度
+        distance = (knownWidth * KNOWN_FOCAL_LENGTH) / perWidth
+        return distance
+
+    def find_marker(self, image):
+        # 在图像中寻找目标物体的轮廓
+        # 将图像转换为灰度图，然后进行模糊处理，以去除图像中的高频噪声
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.GaussianBlur(gray, (5, 5), 0)
+        # 使用 Canny 算法进行边缘检测
+        edged = cv2.Canny(gray, 35, 125)
+        # 寻找边缘图像中的轮廓，保留最大的一个，假设这是我们图像中的纸张
+        cnts = cv2.findContours(edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        cnts = imutils.grab_contours(cnts)
+        c = max(cnts, key=cv2.contourArea)
+        # 计算纸张区域的边界框，并返回
+        return cv2.minAreaRect(c)
+
     # 计算距离
     def calculate_distance(self, shape1, shape2):
-        eye_distance_cm = 6.35
+        eye_distance_cm = 7
 
         eye1_1 = (shape1.part(36).x, shape1.part(36).x)
         eye1_2 = (shape1.part(42).x, shape1.part(42).x)
@@ -127,7 +162,8 @@ def main():
 
                 # 在人脸上方显示标签和距离信息
                 cv2.line(frame, (x1 + w1 // 2, y1 + h1 // 2), (x2 + w2 // 2, y2 + h2 // 2), (255, 0, 0), 2)
-                cv2.putText(frame, f"{distance:.2f}cm", ((x1 + x2) // 2, (y1 + y2) // 2), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
+                cv2.putText(frame, f"{distance:.2f}cm", ((x1 + x2) // 2, (y1 + y2) // 2), cv2.FONT_HERSHEY_SIMPLEX, 0.6,
+                            (255, 0, 0), 2)
 
         cv2.imshow('Interaction Detection', frame)
 
@@ -140,5 +176,17 @@ def main():
     cv2.destroyAllWindows()
 
 
+KNOWN_DASTANCE = 15
+KNOWN_WIDTH = 20
+CALIBRATION_IMAGE_PATH = 'a4.png'
+
 if __name__ == '__main__':
+    # interaction_detector = InteractionDetection(
+    #     knn_model_path=KNN_MODEL_PATH,
+    #     predictor_path=PREDICTOR_PATH,
+    #     face_rec_model_path=FACE_RECOGNITION_MODEL_PATH,
+    #     distance_threshold=DISTANCE_THRESHOLD
+    # )
+    #
+    # interaction_detector.calibrate(CALIBRATION_IMAGE_PATH, KNOWN_DASTANCE, KNOWN_WIDTH)
     main()

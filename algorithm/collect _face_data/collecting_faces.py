@@ -58,7 +58,6 @@ def save_images(cap, action, action_name, name, count=15):
         ret, frame = cap.read()
         if not ret:
             continue
-        # cv2.putText(frame, f"{action_name}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         frame = draw_chinese_text(frame, action_name, (10, 30))
         cv2.imshow("Collecting Faces", frame)
         img_path = os.path.join(name, f"{action}_{name}_{i+1}.jpg")

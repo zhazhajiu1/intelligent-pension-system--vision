@@ -9,7 +9,7 @@ from tqdm import tqdm
 # 数据预处理
 def preprocess_and_align_faces(input_dir='data',
                                predictor_path='data_dlib/shape_predictor_68_face_landmarks.dat'):
-    # 定义增强序列
+    # 定义图像增强序列
     seq = iaa.Sequential([
         iaa.Fliplr(0.5),  # 水平翻转50%的图像
         iaa.Affine(rotate=(-20, 20)),  # 随机旋转图像
@@ -74,6 +74,8 @@ def preprocess_and_align_faces(input_dir='data',
 # 对齐人脸
 preprocess_and_align_faces(input_dir='data', predictor_path='data_dlib/shape_predictor_68_face_landmarks.dat')
 
+
+# 这个是试着拆分代码 让各个代码间更独立，暂时用不了
 def preprocess_data(data_dir, predictor_path):
     X = []
     y = []

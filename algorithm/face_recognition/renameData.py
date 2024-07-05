@@ -22,7 +22,7 @@ def rename_images_in_folder(person_dir):
 
 
 # 给定的文件夹路径
-folder_to_rename = 'data/staff/qjx'
-
+# folder_to_rename = 'data/staff/qjx'
+folder_to_rename = 'data/elderly/ly'
 # 执行重命名操作
 rename_images_in_folder(folder_to_rename)

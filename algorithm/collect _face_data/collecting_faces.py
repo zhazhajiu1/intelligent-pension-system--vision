@@ -60,6 +60,7 @@ def save_images(cap, action, action_name, name, count=15):
             continue
         frame = draw_chinese_text(frame, action_name, (10, 30))
         cv2.imshow("Collecting Faces", frame)
+        cv2.waitKey(1)  # 确保画面刷新
         img_path = os.path.join(name, f"{action}_{name}_{i+1}.jpg")
         cv2.imwrite(img_path, frame)
         time.sleep(0.5)

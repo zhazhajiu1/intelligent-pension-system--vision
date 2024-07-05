@@ -13,6 +13,8 @@ context = [{"role": "user", "content": "我想咨询一些问题，问题应用�
 # 初始化语音识别和语音合成引擎
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()  # 文本回应转换为语音输出
+voices = engine.getProperty('voices')  # 列出所有可用的声音
+engine.setProperty('voice', voices[3].id)
 
 # 语音合成函数
 def speak(text):
@@ -24,7 +26,8 @@ def speak(text):
 def recognize_speech():
     with sr.Microphone() as source:
         print("请开始说话...")
-        speak("您好，请问您有什么问题...若要退出语音聊天功能,请说退出 或者 停止 或者 拜拜")
+        # speak("您好，请问您有什么问题...若要退出语音聊天功能,请说退出 或者 停止 或者 拜拜")
+        speak("您好，请问您有什么问题")
         audio = recognizer.listen(source)
         try:
             # 使用 Google 的语音识别 API，将音频转换为文本
@@ -50,7 +53,7 @@ def recognize_speech():
 #     )
 #     message = response.choices[0].text.strip()
 #     return message
-
+1
 # 调用OpenAI GPT-3进行对话
 def chat_with_ai(content):
 

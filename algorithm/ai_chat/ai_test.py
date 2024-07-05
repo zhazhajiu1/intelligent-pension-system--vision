@@ -14,7 +14,7 @@ for idx, voice in enumerate(voices):
     print(f" - Age: {voice.age}")
 
 # 选择一个声音，例如选择第一个声音（Microsoft Huihui Desktop - Chinese (Simplified)）
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[3].id)
 
 # 设置语速和音量
 engine.setProperty('rate', 150)  # 语速
@@ -30,4 +30,4 @@ speak("你好，这是一个语音合成示例。")
 
 # 如果需要测试不同的语音，可以再次设置并转换文本
 engine.setProperty('voice', voices[1].id)
-speak("Hello, this is a speech synthesis example.")
+# speak("Hello, this is a speech synthesis example.")

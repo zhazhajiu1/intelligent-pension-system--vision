@@ -6,6 +6,86 @@
 
 这是智慧养老系统的算法部分，详细介绍如下。
 
+## 技术栈
+- 编程语言：Python
+- 框架：pytorch
+- 计算机视觉：OpenCV
+
+## 依赖介绍
+- fall,fire,invasion使用的各个依赖版本如下：
+| Package                | Version          |
+|------------------------|------------------|
+| asttokens              | 2.4.1            |
+| backcall               | 0.2.0            |
+| certifi                | 2024.6.2         |
+| charset-normalizer     | 3.3.2            |
+| colorama               | 0.4.6            |
+| contourpy              | 1.1.1            |
+| cycler                 | 0.12.1           |
+| decorator              | 5.1.1            |
+| easydict               | 1.9              |
+| executing              | 2.0.1            |
+| filelock               | 3.15.4           |
+| fonttools              | 4.53.0           |
+| fsspec                 | 2024.6.1         |
+| gitdb                  | 4.0.11           |
+| GitPython              | 3.1.43           |
+| idna                   | 3.7              |
+| importlib_resources    | 6.4.0            |
+| imutils                | 0.5.4            |
+| intel-openmp           | 2021.4.0         |
+| ipython                | 8.12.3           |
+| jedi                   | 0.19.1           |
+| Jinja2                 | 3.1.4            |
+| kiwisolver             | 1.4.5            |
+| MarkupSafe             | 2.1.5            |
+| matplotlib             | 3.7.5            |
+| matplotlib-inline      | 0.1.7            |
+| mkl                    | 2021.4.0         |
+| mpmath                 | 1.3.0            |
+| networkx               | 3.1              |
+| numpy                  | 1.24.4           |
+| opencv-python          | 4.10.0.84        |
+| packaging              | 24.1             |
+| pandas                 | 2.0.3            |
+| parso                  | 0.8.4            |
+| pickleshare            | 0.7.5            |
+| pillow                 | 10.3.0           |
+| pip                    | 24.0             |
+| prompt_toolkit         | 3.0.47           |
+| psutil                 | 6.0.0            |
+| pure-eval              | 0.2.2            |
+| py-cpuinfo             | 9.0.0            |
+| Pygments               | 2.18.0           |
+| pyparsing              | 3.1.2            |
+| python-dateutil        | 2.9.0.post0      |
+| pytz                   | 2024.1           |
+| PyYAML                 | 6.0.1            |
+| requests               | 2.32.3           |
+| scipy                  | 1.10.1           |
+| seaborn                | 0.13.2           |
+| setuptools             | 65.6.3           |
+| six                    | 1.16.0           |
+| smmap                  | 5.0.1            |
+| stack-data             | 0.6.3            |
+| sympy                  | 1.12.1           |
+| tbb                    | 2021.13.0        |
+| thop                   | 0.1.1.post2209072238 |
+| torch                  | 2.2.2            |
+| torchaudio             | 2.3.1+cu118      |
+| torchvision            | 0.17.2           |
+| tqdm                   | 4.66.4           |
+| traitlets              | 5.14.3           |
+| typing_extensions      | 4.12.2           |
+| tzdata                 | 2024.1           |
+| ultralytics            | 8.2.48           |
+| ultralytics-thop       | 2.0.0            |
+| urllib3                | 2.2.2            |
+| wcwidth                | 0.2.13           |
+| wheel                  | 0.43.0           |
+| zipp                   | 3.19.2           |
+| **Python Version**     | **3.8.19**       |
+
 ## 算法描述
 
 ### 3.4.1 实时情感分析

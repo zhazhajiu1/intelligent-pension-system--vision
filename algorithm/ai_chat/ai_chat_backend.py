@@ -27,7 +27,7 @@ def chat():
 
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer sk-ebn5Il2cyqaOEohGh6jbKSmODl2hLi0gwyp5ihJLE8QJtzjT"
+        "Authorization": "Bearer sk-"
     }
 
     try:

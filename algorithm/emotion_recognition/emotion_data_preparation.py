@@ -11,6 +11,7 @@ class CKPlusDataset:
         self.emotions = {
             'happy': 0,
             'normal': 1,
+            'surprise': 2,
             # 'anger': 0,
             # 'contempt': 1,
             # 'disgust': 2,

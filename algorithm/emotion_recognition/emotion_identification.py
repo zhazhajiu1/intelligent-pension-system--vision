@@ -17,7 +17,7 @@ class EmotionRecognition:
         self.predictor = dlib.shape_predictor(predictor_path)
         self.face_rec_model = dlib.face_recognition_model_v1(face_rec_model_path)
 
-        self.emotions = ['happy', 'normal']
+        self.emotions = ['happy', 'normal', 'surprise']
 
     def recognize_emotion(self, frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -32,6 +32,9 @@ class EmotionRecognition:
             emotion_prediction = self.model.predict(aligned_face)
             max_index = np.argmax(emotion_prediction)
             emotion = self.emotions[max_index]
+
+            print(f"预测概率: {emotion_prediction}")
+            print(f"预测表情: {emotion}")
 
             x, y, w, h = face.left(), face.top(), face.width(), face.height()
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)

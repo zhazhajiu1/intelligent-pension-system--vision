@@ -44,7 +44,7 @@ def main():
     dataset = CKPlusDataset(data_dir)
     X_train, X_test, y_train, y_test = dataset.get_train_test_split()
 
-    model = EmotionRecognitionModel(input_shape=(48, 48, 1), num_classes=2) # 标签类别
+    model = EmotionRecognitionModel(input_shape=(48, 48, 1), num_classes=3) # 标签类别
     model.train(X_train, y_train, X_test, y_test, epochs=20, batch_size=32)
 
     loss, accuracy = model.evaluate(X_test, y_test)

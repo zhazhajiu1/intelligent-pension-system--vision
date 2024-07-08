@@ -7,7 +7,7 @@ Usage:
     $ python path/to/export.py --weights yolov5s.pt --include torchscript onnx coreml saved_model pb tflite tfjs
 
 Inference:
-    $ python path/to/detect2.py --weights yolov5s.pt
+    $ python path/to/detect.py --weights yolov5s.pt
                                          yolov5s.onnx  (must export with --dynamic)
                                          yolov5s_saved_model
                                          yolov5s.pb
@@ -103,7 +103,7 @@ def export_onnx(model, im, file, opset, train, dynamic, simplify, prefix=colorst
             except Exception as e:
                 LOGGER.info(f'{prefix} simplifier failure: {e}')
         LOGGER.info(f'{prefix} export success, saved as {f} ({file_size(f):.1f} MB)')
-        LOGGER.info(f"{prefix} run --dynamic ONNX model inference with: 'python detect2.py --weights {f}'")
+        LOGGER.info(f"{prefix} run --dynamic ONNX model inference with: 'python detect.py --weights {f}'")
     except Exception as e:
         LOGGER.info(f'{prefix} export failure: {e}')
 

@@ -4,7 +4,7 @@ import openai
 import requests
 
 # 配置OpenAI API
-openai.api_key = 'Bearer sk-ebn5Il2cyqaOEohGh6jbKSmODl2hLi0gwyp5ihJLE8QJtzjT'
+openai.api_key = ''
 
 # 存储用户上下文
 context = [{"role": "user", "content": "我想咨询一些问题，问题应用场景为养老系统，请你简短回答我后续的问题,不要说多余的话"},
@@ -73,8 +73,8 @@ def chat_with_ai(content):
     # 请求头部，包括内容类型和授权信息
     headers = {
         "Content-Type": "application/json",
-        # "Authorization": "Bearer sk-3pBAXdmPWDdruZqaiM7VaGQKMhPg4VYcaITHImVgGDeIflsr"
-        "Authorization": "Bearer sk-ebn5Il2cyqaOEohGh6jbKSmODl2hLi0gwyp5ihJLE8QJtzjT"
+        # "Authorization": "Bearer sk-"
+        "Authorization": "Bearer sk-"
     }
 
     try:
